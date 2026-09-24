@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The AI & Automation Vault — 5 Workflows Pro de n8n</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          base: '#0A0A0C', surface: '#111113', surface2: '#17171A',
+          line: '#27272A', muted: '#A1A1AA', accent: '#8B5CF6', accent2: '#3B82F6'
+        },
+        fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
+      }
+    }
+  }
+</script>
+<style>
+  :root{ box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{background:#0A0A0C; color:#FAFAFA;}
+  ::selection{background:#8B5CF6; color:#fff;}
+  .grad-text{background:linear-gradient(90deg,#C4B5FD,#8B5CF6 40%,#3B82F6);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .grid-bg{background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);background-size:28px 28px;}
+  .glow{box-shadow:0 0 0 1px rgba(139,92,246,.25), 0 20px 60px -20px rgba(139,92,246,.35);}
+  .card{transition:transform .25s ease, border-color .25s ease, background-color .25s ease;}
+  .card:hover{transform:translateY(-4px); border-color:#8B5CF6; background-color:#141417;}
+  .btn-primary{background:linear-gradient(90deg,#8B5CF6,#3B82F6); transition:filter .2s ease, transform .2s ease;}
+  .btn-primary:hover{filter:brightness(1.12); transform:translateY(-1px);}
+  .flow-line{stroke-dasharray:6 6; animation:dash 3s linear infinite;}
+  @keyframes dash{to{stroke-dashoffset:-24;}}
+  @media (prefers-reduced-motion: reduce){ .flow-line{animation:none;} .card{transition:none;} }
+  a:focus-visible, button:focus-visible{outline:2px solid #8B5CF6; outline-offset:2px;}
+</style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+
+<!-- NAV -->
+<header class="border-b border-line/80 sticky top-0 z-40 bg-base/80 backdrop-blur">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-xs font-bold">V</div>
+      <span class="font-semibold tracking-tight">AI & Automation Vault</span>
+    </div>
+    <a href="#pricing" class="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium border border-line hover:border-accent transition-colors">Ver precio</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="grid-bg border-b border-line">
+  <div class="max-w-6xl mx-auto px-6 pt-16 pb-20 text-center">
+    <span class="inline-flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-violet-200">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+      Exclusivo para Builders & Next Fellows — 50% OFF
+    </span>
+
+    <h1 class="mt-7 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.08] max-w-3xl mx-auto">
+      Ahorra <span class="grad-text">+40 horas</span> de desarrollo con workflows de n8n & IA listos para importar
+    </h1>
+
+    <p class="mt-6 text-muted text-lg max-w-xl mx-auto leading-relaxed">
+      Cinco automatizaciones B2B probadas en producción — prospección, calificación de leads, contenido, soporte y research de mercado — empaquetadas en archivos JSON que importas en minutos.
+    </p>
+
+    <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a href="https://pay.hotmart.com/U107757148P" target="_blank" rel="noopener" class="btn-primary w-full sm:w-auto px-7 py-3.5 rounded-lg font-semibold text-sm text-white glow">
+        Obtener acceso instantáneo — $19 USD
+      </a>
+      <a href="#workflows" class="w-full sm:w-auto px-7 py-3.5 rounded-lg font-medium text-sm border border-line hover:border-accent transition-colors">
+        Ver los 5 workflows
+      </a>
+    </div>
+    <p class="mt-4 text-xs text-muted font-mono">Pago único · Sin suscripción · Entrega inmediata</p>
+
+    <!-- Mockup de flujo n8n -->
+    <div class="mt-14 mx-auto max-w-3xl rounded-2xl border border-line bg-surface/60 p-4 sm:p-8 text-left">
+      <div class="flex items-center gap-1.5 mb-6">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+        <span class="ml-3 text-xs font-mono text-muted">lead-qualification-agent.json</span>
+      </div>
+      <svg viewBox="0 0 720 160" class="w-full h-auto">
+        <line x1="80" y1="80" x2="240" y2="80" stroke="#8B5CF6" stroke-width="2" class="flow-line"/>
+        <line x1="320" y1="80" x2="480" y2="80" stroke="#8B5CF6" stroke-width="2" class="flow-line"/>
+        <line x1="560" y1="80" x2="640" y2="80" stroke="#8B5CF6" stroke-width="2" class="flow-line"/>
+        <g>
+          <rect x="10" y="50" width="70" height="60" rx="12" fill="#17171A" stroke="#27272A"/>
+          <circle cx="45" cy="72" r="9" fill="#3B82F6"/>
+          <text x="45" y="98" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Webhook</text>
+        </g>
+        <g>
+          <rect x="240" y="45" width="80" height="70" rx="12" fill="#17171A" stroke="#8B5CF6"/>
+          <circle cx="280" cy="70" r="9" fill="#8B5CF6"/>
+          <text x="280" y="96" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Claude 3.5</text>
+          <text x="280" y="107" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Sonnet</text>
+        </g>
+        <g>
+          <rect x="480" y="50" width="80" height="60" rx="12" fill="#17171A" stroke="#27272A"/>
+          <circle cx="520" cy="72" r="9" fill="#10B981"/>
+          <text x="520" y="98" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Supabase</text>
+        </g>
+        <g>
+          <rect x="640" y="50" width="70" height="60" rx="12" fill="#17171A" stroke="#27272A"/>
+          <circle cx="675" cy="72" r="9" fill="#3B82F6"/>
+          <text x="675" y="98" text-anchor="middle" fill="#A1A1AA" font-size="9" font-family="JetBrains Mono">Slack</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOWS -->
+<section id="workflows" class="max-w-6xl mx-auto px-6 py-20 border-b border-line">
+  <div class="max-w-xl mb-12">
+    <h2 class="text-3xl font-bold tracking-tight">Qué incluye el Vault</h2>
+    <p class="mt-3 text-muted">Cinco workflows completos, cada uno con su archivo de importación, documentación y prompts de configuración.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="card rounded-xl border border-line bg-surface p-6">
+      <div class="flex items-start justify-between mb-4">
+        <span class="font-mono text-xs text-muted">01</span>
+        <span class="text-[11px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Incluido</span>
+      </div>
+      <h3 class="font-semibold mb-2">Agente de prospección B2B con Claude 3.5 Sonnet</h3>
+      <p class="text-sm text-muted leading-relaxed">Investiga cuentas objetivo, redacta mensajes personalizados y prioriza leads sin intervención manual.</p>
+    </div>
+
+    <div class="card rounded-xl border border-line bg-surface p-6">
+      <div class="flex items-start justify-between mb-4">
+        <span class="font-mono text-xs text-muted">02</span>
+        <span class="text-[11px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Incluido</span>
+      </div>
+      <h3 class="font-semibold mb-2">Cualificación automática de leads & sync con Supabase</h3>
+      <p class="text-sm text-muted leading-relaxed">Puntúa cada lead entrante según tus criterios y lo sincroniza en tu base de datos en tiempo real.</p>
+    </div>
+
+    <div class="card rounded-xl border border-line bg-surface p-6">
+      <div class="flex items-start justify-between mb-4">
+        <span class="font-mono text-xs text-muted">03</span>
+        <span class="text-[11px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Incluido</span>
+      </div>
+      <h3 class="font-semibold mb-2">Motor de contenido técnico autónomo</h3>
+      <p class="text-sm text-muted leading-relaxed">Genera borradores de artículos y posts técnicos a partir de un simple tema o keyword, listos para editar.</p>
+    </div>
+
+    <div class="card rounded-xl border border-line bg-surface p-6">
+      <div class="flex items-start justify-between mb-4">
+        <span class="font-mono text-xs text-muted">04</span>
+        <span class="text-[11px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Incluido</span>
+      </div>
+      <h3 class="font-semibold mb-2">Customer support bot con RAG y base de datos</h3>
+      <p class="text-sm text-muted leading-relaxed">Responde preguntas de soporte consultando tu propia documentación, con escalado automático a humano.</p>
+    </div>
+
+    <div class="card rounded-xl border border-line bg-surface p-6 sm:col-span-2 lg:col-span-1">
+      <div class="flex items-start justify-between mb-4">
+        <span class="font-mono text-xs text-muted">05</span>
+        <span class="text-[11px] px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Incluido</span>
+      </div>
+      <h3 class="font-semibold mb-2">Web scraper inteligente de oportunidades de mercado</h3>
+      <p class="text-sm text-muted leading-relaxed">Monitorea sitios y foros clave, detecta señales de oportunidad y te las entrega resumidas.</p>
+    </div>
+
+    <div class="rounded-xl border border-dashed border-line p-6 flex flex-col items-center justify-center text-center">
+      <p class="text-sm text-muted">Todos los archivos <span class="font-mono text-violet-300">.json</span><br>en un solo paquete descargable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="max-w-6xl mx-auto px-6 py-20 border-b border-line">
+  <h2 class="text-3xl font-bold tracking-tight mb-12">Por qué este vault y no otro tutorial</h2>
+  <div class="grid sm:grid-cols-3 gap-8">
+    <div>
+      <svg class="w-6 h-6 text-accent mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke-linejoin="round"/></svg>
+      <h3 class="font-semibold mb-2">Instalación en 1 clic</h3>
+      <p class="text-sm text-muted leading-relaxed">Importas el archivo JSON directo en tu instancia de n8n y el workflow queda listo para conectar tus credenciales.</p>
+    </div>
+    <div>
+      <svg class="w-6 h-6 text-accent mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5" stroke-linecap="round"/></svg>
+      <h3 class="font-semibold mb-2">Documentación y prompts incluidos</h3>
+      <p class="text-sm text-muted leading-relaxed">Cada workflow trae su guía de configuración paso a paso y los prompts exactos usados en cada nodo de IA.</p>
+    </div>
+    <div>
+      <svg class="w-6 h-6 text-accent mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round"/></svg>
+      <h3 class="font-semibold mb-2">Soporte y actualizaciones de por vida</h3>
+      <p class="text-sm text-muted leading-relaxed">Cuando n8n o los modelos cambian, los workflows se actualizan — y tú los recibes sin costo extra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="max-w-6xl mx-auto px-6 py-20">
+  <div class="max-w-lg mx-auto rounded-2xl border border-accent/40 bg-surface p-8 sm:p-10 text-center glow">
+    <span class="inline-block text-xs font-mono px-3 py-1 rounded-full border border-line text-muted mb-6">Oferta única de lanzamiento</span>
+    <div class="flex items-end justify-center gap-3 mb-2">
+      <span class="text-muted line-through font-mono text-xl">$38</span>
+      <span class="text-5xl font-bold tracking-tight">$19</span>
+      <span class="text-muted text-sm mb-1">USD</span>
+    </div>
+    <p class="text-sm text-muted mb-8">Pago único · 5 workflows · Documentación completa · Soporte incluido</p>
+    <a href="https://pay.hotmart.com/U107757148P" target="_blank" rel="noopener" class="btn-primary block w-full py-3.5 rounded-lg font-semibold text-sm text-white">
+      Obtener acceso instantáneo ahora
+    </a>
+    <p class="mt-4 text-xs text-muted">Entrega automática por Hotmart · Acceso inmediato tras el pago</p>
+  </div>
+</section>
+
+<footer class="border-t border-line">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-center text-xs text-muted font-mono">
+    AI & Automation Vault — hecho para founders que prefieren construir una vez y automatizar siempre.
+  </div>
+</footer>
+
+</body>
+</html>
